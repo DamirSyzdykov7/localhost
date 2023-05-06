@@ -1,13 +1,14 @@
 <?php 
-if(isset($_POST['coment'])) {
+if(isset($_POST['coment']) && ($_POST['name'])){
     $coment = $_POST['coment'];
+    $name = $_POST['name'];
     if(file_get_contents('coments.txt')) {
-        $coment = "|||" . $coment;    
+        $coment = "|||" . $coment;
     }
     file_put_contents('coments.txt', $coment , FILE_APPEND);
 }
 
-$text = file_get_contents('coments.txt');
+$text = file_get_contents('coments.txt'); 
 $coments = explode("|||" ,$text);
 
 ?>
@@ -24,9 +25,12 @@ $coments = explode("|||" ,$text);
    
 <form action="" method="post">
     <div class="calculator">
-
     <div class="mb-3">
-        <label for="coment" class="coment">number2</label>
+        <label for="name" class="name">name</label>
+        <textarea name="name"  class="form-control"><?= $_POST['name'] ?? ''?></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="coment" class="coment">coment</label>
         <textarea name="coment"  class="form-control"><?= $_POST['coment'] ?? ''?></textarea>
     </div>
         <div class="button mb-3">
@@ -35,11 +39,16 @@ $coments = explode("|||" ,$text);
         <?php foreach($coments as $coment): ?>
             <?php if($coment): ?>
                 <div class="alert alert-success">
+                    <br><?=$name?></br>
+                    <??>
                     <?=$coment?>
                 </div>
         <?php endif; ?>
         <?php endforeach;?>
     </div>
+
+    <p>сейчас: <?= date("d.m.Y H:i:s")?></p>
+
 </form>
 </body>
 </html>
